@@ -34,6 +34,7 @@ export default function SingUp() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        router.replace('/mytrip')
         console.log(user);
       })
       .catch((error) => {

@@ -4,7 +4,8 @@ import {auth} from './../configs/FirebaseConfig'
 import { Redirect } from "expo-router";
 
 export default function Index() {
-  const user = auth.currentUser
+  const user = auth.currentUser;
+  console.log(user)
   return (
     <View
       style={{
