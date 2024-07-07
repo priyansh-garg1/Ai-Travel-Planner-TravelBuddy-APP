@@ -13,6 +13,9 @@ export default function SelectDates() {
       headerTitle: "",
     });
   }, []);
+  const onDateChange = (date,type) => {
+    
+  }
   return (
     <View
       style={{
@@ -33,7 +36,7 @@ export default function SelectDates() {
       </Text>
       <View style={{ marginTop: 30 }}>
         <CalendarPicker
-          onDateChange={this.onDateChange}
+          onDateChange={onDateChange}
           allowRangeSelection={true}
           minDate={new Date()}
           selectedRangeStyle={{backgroundColor:Colors.primary}}
