@@ -1,11 +1,18 @@
-import { View, Text } from "react-native";
-import React, { useEffect } from "react";
-import { useNavigation } from "expo-router";
+import { View, Text, TouchableOpacity, ToastAndroid } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigation, useRouter } from "expo-router";
 import { Colors } from "../../constants/Colors";
 import CalendarPicker from "react-native-calendar-picker";
+import moment from "moment";
+import { CreateTripContext } from "../../context/CreateTripContext";
 
 export default function SelectDates() {
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
   const navigation = useNavigation();
+  const { tripData, setTripData } = useContext(CreateTripContext);
+  const router = useRouter();
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -13,9 +20,30 @@ export default function SelectDates() {
       headerTitle: "",
     });
   }, []);
-  const onDateChange = (date,type) => {
-    
-  }
+  const onDateChange = (date, type) => {
+    console.log(date);
+    if(type=='START_DATE'){
+      setStartDate(moment(date));
+    }
+    else{
+      setEndDate(moment(date));
+    }
+  };
+  const onDateSelectionContinue = () => {
+    if(!startDate && !endDate){
+      ToastAndroid.show("Please select start date and end date",ToastAndroid.LONG)
+      return;
+    }
+    const totalNoOfDays = endDate.diff(startDate,'days');
+    console.log(totalNoOfDays+1);
+    setTripData({
+      ...tripData,
+      startDate: startDate,
+      endDate: endDate,
+      totalNoOfDays: totalNoOfDays+1,
+    })
+    router.push("/create-trip/selectBudget");
+  };
   return (
     <View
       style={{
@@ -39,10 +67,35 @@ export default function SelectDates() {
           onDateChange={onDateChange}
           allowRangeSelection={true}
           minDate={new Date()}
-          selectedRangeStyle={{backgroundColor:Colors.primary}}
-          selectedDayTextColor={Colors.white}
+          maxRangeDuration={5}
+          selectedRangeStyle={{
+            backgroundColor: Colors.primary,
+          }}
+          selectedDayTextStyle={{
+            color: Colors.white,
+          }}
         />
       </View>
+      <TouchableOpacity
+        onPress={onDateSelectionContinue}
+        style={{
+          padding: 15,
+          backgroundColor: Colors.primary,
+          borderRadius: 15,
+          marginTop: 35,
+        }}
+      >
+        <Text
+          style={{
+            color: Colors.white,
+            textAlign: "center",
+            fontFamily: "outfit-medium",
+            fontSize: 20,
+          }}
+        >
+          Continue
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
