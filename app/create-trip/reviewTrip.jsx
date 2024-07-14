@@ -1,6 +1,6 @@
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import React, { useContext, useEffect } from "react";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { Colors } from "../../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { CreateTripContext } from "../../context/CreateTripContext";
@@ -8,7 +8,9 @@ import moment from "moment";
 
 const ReviewTrip = () => {
   const navigation = useNavigation();
+  const router = useRouter();
   const { tripData, setTripData } = useContext(CreateTripContext);
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
@@ -51,7 +53,7 @@ const ReviewTrip = () => {
         {/* Destination  */}
         <View
           style={{
-            marginTop: 20,
+            marginTop: 40,
             display: "flex",
             flexDirection: "row",
             gap: 20,
@@ -124,7 +126,99 @@ const ReviewTrip = () => {
             </Text>
           </View>
         </View>
+        {/* Travel with  */}
+        <View
+          style={{
+            marginTop: 20,
+            display: "flex",
+            flexDirection: "row",
+            gap: 20,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 30,
+            }}
+          >
+            🚌
+          </Text>
+          <View>
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "outfit",
+                color: Colors.GRAY,
+              }}
+            >
+              Who is Traveling
+            </Text>
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "outfit-medium",
+              }}
+            >
+              {tripData?.traveler?.title}
+            </Text>
+          </View>
+        </View>
+        {/* budget  */}
+        <View
+          style={{
+            marginTop: 20,
+            display: "flex",
+            flexDirection: "row",
+            gap: 20,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 30,
+            }}
+          >
+            💰
+          </Text>
+          <View>
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "outfit",
+                color: Colors.GRAY,
+              }}
+            >
+              Budget
+            </Text>
+            <Text
+              style={{
+                fontSize: 20,
+                fontFamily: "outfit-medium",
+              }}
+            >
+              {tripData?.budget}
+            </Text>
+          </View>
+        </View>
       </View>
+      <TouchableOpacity
+        onPress={() => router.replace("create-trip/generateTrip")}
+        style={{
+          padding: 15,
+          backgroundColor: Colors.primary,
+          borderRadius: 15,
+          marginTop: 80,
+        }}
+      >
+        <Text
+          style={{
+            color: Colors.white,
+            textAlign: "center",
+            fontFamily: "outfit-medium",
+            fontSize: 20,
+          }}
+        >
+          Build My Trip
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
