@@ -30,20 +30,21 @@ export default function GenerateTrip() {
         .replace("{totalNight}", tripData?.totalNoOfDays - 1)
         .replace("{traveler}", tripData?.traveler?.title)
         .replace("{budget}", tripData?.budget);
+      // console.log(FINAL_PROMPT);
 
       const result = await chatSession.sendMessage(FINAL_PROMPT);
-      console.log(result.response.text(), "line 35");
-      const tripResp = JSON.parse(result.response.text());
-      console.log(tripResp, "line 37");
+      console.log((result.response.text()));
+      // const tripResp = JSON.parse(result.response.text());
+      // console.log(tripResp);
 
       const docId = Date.now().toString();
       const result_ = await setDoc(doc(db, "UserTrips", docId), {
         userEmail: user?.email,
-        tripPlan: tripResp,
+        // tripPlan: tripResp,
+        tripPlan: result.response.text(),
         tripData: JSON.stringify(tripData),
         docId: docId
       });
-      console.log(result_,"Line 45");
     } catch (error) {
       console.log("Erorr occurred while generating trip data");
       console.log(error);
