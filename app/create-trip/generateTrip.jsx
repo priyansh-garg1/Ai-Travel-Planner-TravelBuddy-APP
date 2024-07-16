@@ -7,6 +7,7 @@ import { AI_PROMPT } from "../../constants/Ooptions";
 import { chatSession } from "../../configs/AiModel";
 import { auth, db } from "../../configs/FirebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
+import { GetImage } from "../../services/UnsplashAPI";
 
 export default function GenerateTrip() {
   const navigation = useNavigation();
@@ -30,17 +31,21 @@ export default function GenerateTrip() {
       .replace("{traveler}", tripData?.traveler?.title)
       .replace("{budget}", tripData?.budget)
       .replace("{totalDay}", tripData?.totalNoOfDays)
-      .replace("{totalNight}", tripData?.totalNoOfDays - 1);
+      .replace("{totalNight}", tripData?.totalNoOfDays - 1)
+      .replace("{location}", tripData?.locationInfo?.name);
 
+    console.log(FINAL_PROMPT);
     const result = await chatSession.sendMessage(FINAL_PROMPT);
     const tripResp = JSON.parse(result.response.text());
-
+    const placeImageUrl = await GetImage(tripData?.locationInfo?.name) || "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w2MzM2NjF8MHwxfHNlYXJjaHwxfHxQYXJpc3xlbnwwfHx8fDE3MjExMzUyMzN8MA&ixlib=rb-4.0.3&q=85"
+    console.log(placeImageUrl);
     const docId = Date.now().toString();
     const result_ = await setDoc(doc(db, "UserTrips", docId), {
       userEmail: user?.email,
       tripPlan: tripResp,
       tripData: JSON.stringify(tripData),
       docId: docId,
+      placeImageUrl: placeImageUrl
     });
 
     setLoading(false);
@@ -74,7 +79,7 @@ export default function GenerateTrip() {
           textAlign: "center",
         }}
       >
-        We are working to generate your
+        We are working to generate your trip
       </Text>
       <Image
         source={require("./../../assets/images/aeroplane.gif")}

@@ -3,10 +3,13 @@ import React from "react";
 import moment from "moment";
 import { Colors } from "../../constants/Colors";
 import UserTripCard from "./UserTripCard";
+import { useRouter } from "expo-router";
 
 export default function UserTripList({ userTrips }) {
+  const router = useRouter()
   const tripData = JSON.parse(userTrips[0].tripData);
-  return (
+  const tripPlan = userTrips[0].tripPlan;
+  return userTrips && ( 
     <View>
       <View
         style={{
@@ -14,7 +17,7 @@ export default function UserTripList({ userTrips }) {
         }}
       >
         <Image
-          source={require("./../../assets/images/trip.jpg")}
+          src={userTrips[0].placeImageUrl}
           style={{
             width: "100%",
             height: 240,
@@ -24,7 +27,7 @@ export default function UserTripList({ userTrips }) {
         />
         <View style={{ marginTop: 10 }}>
           <Text style={{ fontFamily: "outfit-medium", fontSize: 20 }}>
-            {tripData.locationInfo.name}
+            {tripPlan?.locationDetails?.locationName}
           </Text>
           <View
             style={{
@@ -43,6 +46,7 @@ export default function UserTripList({ userTrips }) {
             >
               {moment(tripData.startDate).format("DD MMM yyyy")}
             </Text>
+
             <Text
               style={{
                 fontFamily: "outfit",
@@ -54,6 +58,9 @@ export default function UserTripList({ userTrips }) {
             </Text>
           </View>
           <TouchableOpacity
+          onPress={()=>router.push({pathname:'/trip-details',params:{
+            trip:JSON.stringify(userTrips[0])
+          }})}
             style={{
               backgroundColor: Colors.primary,
               padding:15,
