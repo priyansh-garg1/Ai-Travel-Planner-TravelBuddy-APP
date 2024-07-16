@@ -5,8 +5,7 @@ import { Colors } from "../../constants/Colors";
 import UserTripCard from "./UserTripCard";
 
 export default function UserTripList({ userTrips }) {
-  const TripPlan = JSON.parse(userTrips[0]?.tripPlan);
-  const LatestTrip = JSON.parse(userTrips[0]?.tripData);
+  const tripData = JSON.parse(userTrips[0].tripData);
   return (
     <View>
       <View
@@ -25,7 +24,7 @@ export default function UserTripList({ userTrips }) {
         />
         <View style={{ marginTop: 10 }}>
           <Text style={{ fontFamily: "outfit-medium", fontSize: 20 }}>
-            {TripPlan?.travelPlan?.destination}
+            {tripData.locationInfo.name}
           </Text>
           <View
             style={{
@@ -42,7 +41,7 @@ export default function UserTripList({ userTrips }) {
                 color: Colors.GRAY,
               }}
             >
-              {moment(LatestTrip?.startDate).format("DD MMM yyyy")}
+              {moment(tripData.startDate).format("DD MMM yyyy")}
             </Text>
             <Text
               style={{
@@ -51,7 +50,7 @@ export default function UserTripList({ userTrips }) {
                 color: Colors.GRAY,
               }}
             >
-              🚌 {LatestTrip?.traveler?.title}
+              🚌 {tripData.traveler.title}
             </Text>
           </View>
           <TouchableOpacity
@@ -74,6 +73,7 @@ export default function UserTripList({ userTrips }) {
             </Text>
           </TouchableOpacity>
         </View>
+
 
         {userTrips.map((trip,index)=>(
             <UserTripCard trip={trip} key={index} />

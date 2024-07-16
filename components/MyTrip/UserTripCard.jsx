@@ -2,7 +2,10 @@ import { View, Text, Image } from "react-native";
 import React from "react";
 
 export default function UserTripCard({ trip }) {
-   const  ParseTrip = JSON.parse(trip.tripPlan);
+  console.log(trip.tripData);
+  const formatData = (data) => {
+    return JSON.parse(data)
+  }
   return (
     <View
       style={{
@@ -19,7 +22,7 @@ export default function UserTripCard({ trip }) {
         }}
       />
       <View>
-        <Text>{ParseTrip?.travelPlan?.destination}</Text>
+        <Text>{formatData(trip.tripData).locationInfo?.name}</Text>
       </View>
     </View>
   );

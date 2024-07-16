@@ -9,7 +9,7 @@ import UserTripList from "../../components/MyTrip/UserTripList";
 
 export default function MyTrip() {
   const [userTrip, setUserTrip] = useState([]);
-  const [loading,setLoading] = useState();
+  const [loading,setLoading] = useState(false);
   const user = auth.currentUser;
   const GetMyTrips = async () => {
     setLoading(true);

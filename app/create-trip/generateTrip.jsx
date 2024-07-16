@@ -21,34 +21,28 @@ export default function GenerateTrip() {
 
   const GenerateAiTrip = async () => {
     setLoading(true);
-    try {
-      const FINAL_PROMPT = AI_PROMPT.replace(
-        "{location}",
-        tripData?.locationInfo?.name
-      )
-        .replace("{totalDay}", tripData?.totalNoOfDays)
-        .replace("{totalNight}", tripData?.totalNoOfDays - 1)
-        .replace("{traveler}", tripData?.traveler?.title)
-        .replace("{budget}", tripData?.budget);
-      // console.log(FINAL_PROMPT);
+    const FINAL_PROMPT = AI_PROMPT.replace(
+      "{location}",
+      tripData?.locationInfo?.name
+    )
+      .replace("{totalDay}", tripData?.totalNoOfDays)
+      .replace("{totalNight}", tripData?.totalNoOfDays - 1)
+      .replace("{traveler}", tripData?.traveler?.title)
+      .replace("{budget}", tripData?.budget)
+      .replace("{totalDay}", tripData?.totalNoOfDays)
+      .replace("{totalNight}", tripData?.totalNoOfDays - 1);
 
-      const result = await chatSession.sendMessage(FINAL_PROMPT);
-      console.log((result.response.text()));
-      // const tripResp = JSON.parse(result.response.text());
-      // console.log(tripResp);
+    const result = await chatSession.sendMessage(FINAL_PROMPT);
+    const tripResp = JSON.parse(result.response.text());
 
-      const docId = Date.now().toString();
-      const result_ = await setDoc(doc(db, "UserTrips", docId), {
-        userEmail: user?.email,
-        // tripPlan: tripResp,
-        tripPlan: result.response.text(),
-        tripData: JSON.stringify(tripData),
-        docId: docId
-      });
-    } catch (error) {
-      console.log("Erorr occurred while generating trip data");
-      console.log(error);
-    }
+    const docId = Date.now().toString();
+    const result_ = await setDoc(doc(db, "UserTrips", docId), {
+      userEmail: user?.email,
+      tripPlan: tripResp,
+      tripData: JSON.stringify(tripData),
+      docId: docId,
+    });
+
     setLoading(false);
     router.push("/(tabs)/mytrip");
   };
