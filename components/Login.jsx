@@ -9,7 +9,9 @@ export default function Login() {
     <View>
       <Image
         style={{ width: "100%", height: 520 }}
-        source={require("../assets/images/trip2.jpg")}
+        source={{
+          uri: "https://m.media-amazon.com/images/I/61KJJUHKwZL._AC_UF1000,1000_QL80_.jpg",
+        }}
       />
       <View style={styles.container}>
         <Text
@@ -28,15 +30,13 @@ export default function Login() {
             textAlign: "center",
             color: Colors.GRAY,
             fontFamily: "outfit",
-            marginTop: 20,
+            marginTop: 30,
           }}
         >
           Discover your next adventure effortlessly, Personalized itrineraries
           at your fingertips. Travel smarter with AI-driven insights
         </Text>
-        <TouchableOpacity
-        onPress={()=>router.push('auth/sign-in')}
-        >
+        <TouchableOpacity onPress={() => router.push("auth/sign-in")}>
           <View style={styles.button}>
             <Text
               style={{
@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: Colors.primary,
     borderRadius: 99,
-    marginTop: "25%",
+    marginTop: "15%",
   },
 });

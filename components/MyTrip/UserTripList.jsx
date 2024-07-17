@@ -83,7 +83,12 @@ export default function UserTripList({ userTrips }) {
 
 
         {userTrips.map((trip,index)=>(
-            <UserTripCard trip={trip} key={index} />
+           <TouchableOpacity onPress={()=>router.push({pathname:'/trip-details',params:{
+            trip:JSON.stringify(trip)
+          }})}>
+
+           <UserTripCard trip={trip} key={index} />
+           </TouchableOpacity>
         ))}
       </View>
     </View>
