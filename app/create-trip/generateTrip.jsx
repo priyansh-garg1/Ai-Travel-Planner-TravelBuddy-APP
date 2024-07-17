@@ -20,6 +20,14 @@ export default function GenerateTrip() {
     GenerateAiTrip();
   }, []);
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+      headerTransparent: true,
+      headerTitle: "",
+    });
+  }, []);
+
   const GenerateAiTrip = async () => {
     setLoading(true);
     const FINAL_PROMPT = AI_PROMPT.replace(

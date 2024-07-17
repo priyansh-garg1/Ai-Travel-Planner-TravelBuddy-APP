@@ -66,7 +66,9 @@ export default function MyTrip() {
       {userTrip?.length == 0 ? (
         <StartNewTripCard />
       ) : (
-        <UserTripList userTrips={userTrip} />
+        <View style={{
+          marginBottom:55
+        }}><UserTripList userTrips={userTrip} /></View>
       )}
     </ScrollView>
   );
