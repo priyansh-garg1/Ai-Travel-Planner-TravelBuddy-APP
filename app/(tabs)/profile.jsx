@@ -18,8 +18,6 @@ const Profile = () => {
   const user = auth.currentUser;
   const router = useRouter();
 
-  console.log(user);
-
   const handleLogout = async () => {
     if (user) {
       await signOut(auth)
@@ -41,9 +39,11 @@ const Profile = () => {
   }
 
   return (
-    <ScrollView  style={{
-      backgroundColor:Colors.white
-    }}>
+    <ScrollView
+      style={{
+        backgroundColor: Colors.white,
+      }}
+    >
       <View style={styles.container}>
         <Image
           style={styles.userLogo}
@@ -82,12 +82,16 @@ const Profile = () => {
           }}
           onPress={handleLogout}
         >
-          <Text style={{
-                color: Colors.white,
-                fontSize: 17,
-                fontFamily: "outfit",
-                textAlign: "center",
-              }}>Logout</Text>
+          <Text
+            style={{
+              color: Colors.white,
+              fontSize: 17,
+              fontFamily: "outfit",
+              textAlign: "center",
+            }}
+          >
+            Logout
+          </Text>
         </TouchableOpacity>
         <View style={styles.footer}>
           <Text style={styles.footerText}>
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     marginBottom: 5,
-    marginTop:20
+    marginTop: 20,
   },
   heading: {
     fontSize: 30,
@@ -143,7 +147,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 18,
     marginBottom: 10,
-    fontFamily:'outfit-medium',
+    fontFamily: "outfit-medium",
     color: Colors.primary,
   },
   travelTips: {
@@ -162,14 +166,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginBottom: 15,
     fontFamily: "outfit-bold",
-    
+
     color: Colors.primary,
   },
   tipItem: {
     fontSize: 16,
     marginBottom: 7,
     color: "#555",
-    fontFamily:'outfit-medium',
+    fontFamily: "outfit-medium",
   },
   footer: {
     marginTop: 20,
@@ -178,7 +182,7 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 14,
     color: Colors.GRAY,
-    fontFamily:'outfit-medium',
+    fontFamily: "outfit-medium",
   },
   message: {
     fontSize: 16,

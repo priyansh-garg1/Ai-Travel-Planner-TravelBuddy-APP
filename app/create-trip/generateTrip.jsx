@@ -8,6 +8,7 @@ import { chatSession } from "../../configs/AiModel";
 import { auth, db } from "../../configs/FirebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 import { GetImage } from "../../services/UnsplashAPI";
+import { GetPhotoRef } from "../../services/GooglePlaceAPI";
 
 export default function GenerateTrip() {
   const navigation = useNavigation();
@@ -42,12 +43,15 @@ export default function GenerateTrip() {
       .replace("{totalNight}", tripData?.totalNoOfDays - 1)
       .replace("{location}", tripData?.locationInfo?.name);
 
-    console.log(FINAL_PROMPT);
     const result = await chatSession.sendMessage(FINAL_PROMPT);
     console.log("Fetched gemini data");
     const tripResp = JSON.parse(result.response.text());
-    const placeImageUrl = await GetImage(tripData?.locationInfo?.name) || "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w2MzM2NjF8MHwxfHNlYXJjaHwxfHxQYXJpc3xlbnwwfHx8fDE3MjExMzUyMzN8MA&ixlib=rb-4.0.3&q=85"
-    console.log("Fetched image url");
+    const getImg = await GetPhotoRef(tripData?.locationInfo?.name);
+    const placeImageUrl =
+      "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=" +
+      getImg?.results[0]?.photos[0]?.photo_reference +
+      "&key=" +
+      process.env.EXPO_PUBLIC_GOOGLE_MAP_API_KEY;
     console.log(placeImageUrl);
     const docId = Date.now().toString();
     const result_ = await setDoc(doc(db, "UserTrips", docId), {
@@ -55,7 +59,7 @@ export default function GenerateTrip() {
       tripPlan: tripResp,
       tripData: JSON.stringify(tripData),
       docId: docId,
-      placeImageUrl: placeImageUrl
+      placeImageUrl: placeImageUrl,
     });
 
     setLoading(false);

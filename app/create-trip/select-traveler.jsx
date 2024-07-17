@@ -25,7 +25,6 @@ export default function SelectTraveler() {
   }, [selectedTravler]);
 
   useEffect(() => {
-    console.log(tripData);
   }, [tripData]);
 
   return (

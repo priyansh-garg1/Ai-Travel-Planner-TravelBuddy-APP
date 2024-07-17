@@ -1,7 +1,11 @@
 import { View, Text, FlatList, Image } from "react-native";
 import React from "react";
+import { GetPhotoRef } from "../../services/GooglePlaceAPI";
+import { useEffect } from "react";
+import HotelCard from "./HotelCard";
 
 export default function HotelList({ hotelList }) {
+  
   return (
     <View
       style={{
@@ -26,34 +30,7 @@ export default function HotelList({ hotelList }) {
         showsHorizontalScrollIndicator={false}
         data={hotelList}
         renderItem={({ item, index }) => (
-          <View
-            style={{
-              marginRight: 20,
-              width:180,
-            }}
-          >
-            <Image
-              source={require("../../assets/images/trip.jpg")}
-              style={{
-                width: 180,
-                height: 120,
-                marginBottom: 3 ,
-                borderRadius: 15,
-              }}
-            />
-            <View style={{
-              padding:5
-            }}>
-              <Text style={{
-                fontSize: 17,
-                fontFamily: "outfit-medium",
-              }}>{item.hotelName}</Text>
-              <Text style={{
-                fontFamily: "outfit",
-              }}>⭐{item.rating}</Text>
-              <Text>💰{item.price}</Text>
-              </View>
-          </View>
+          <HotelCard item={item}/>
         )}
       />
     </View>
